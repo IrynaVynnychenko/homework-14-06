@@ -1,32 +1,59 @@
-let krug = document.querySelector(".krug");
-let body = document.querySelector("body");
-let kvadrat = document.querySelectorAll(".kradrat");
+let krug = document.querySelector('.krug ');
+let kvadrat = document.querySelector('.kvadrat');
+let positionMouseX = null;
+let positionMouseY = null;
+let body = document.querySelector('body');
 
 const move = function(e) {
-    // console.log(krug.getBoundingClientRect());
+    let kvadratArrea = kvadrat.getBoundingClientRect();
+    let kvadratX = kvadratArrea.left;
+    let kvadratY = kvadratArrea.top;
+    let kvadratH = kvadratArrea.height;
+    let kvadratW = kvadratArrea.width;
 
-    if (e.clientX < 50) {
-        krug.style.left = '0px';
-    } else if (e.clientX > 730) {
-        krug.style.left = '680px';
-    } else {
-        krug.style.left = e.pageX - e.layerX + (e.layerX - krug.clientWidth / 2) + 'px';
+    let krugArrea = krug.getBoundingClientRect();
+    let krugX = krugArrea.left;
+    let krugY = krugArrea.top;
+    let krugW = krugArrea.width;
+    let krugH = krugArrea.height;
+
+    let krugInArreaX = krugX - kvadratX;
+    let krugInArreaY = krugY - kvadratY;
+    if (e.target == krug) {
+        let positionMouseInArreaX = krugInArreaX - positionMouseX + e.layerX;
+        if (positionMouseInArreaX > 0 && positionMouseInArreaX < kvadratW - krugW) {
+            krug.style.left = positionMouseInArreaX + 'px';
+        }
+        let positionMouseInArreaY = krugInArreaY - positionMouseY + e.layerY;
+        if (positionMouseInArreaY > 0 && positionMouseInArreaY < kvadratH - krugH) {
+            krug.style.top = positionMouseInArreaY + 'px';
+        }
+    } else if (e.target == kvadrat) {
+        console.log(krugInArreaX);
+        console.log(positionMouseX);
+        console.log(e.layerX);
+        console.log('------------')
+        let positionMouseInArreaX = e.layerX - positionMouseX;
+        if (positionMouseInArreaX > 0 && positionMouseInArreaX < kvadratW - krugW) {
+            krug.style.left = positionMouseInArreaX + 'px';
+        }
+        let positionMouseInArreaY = e.layerY - positionMouseY;
+        if (positionMouseInArreaY > 0 && positionMouseInArreaY < kvadratH - krugH) {
+            krug.style.top = positionMouseInArreaY + 'px';
+        }
     }
 
-    if (e.layerY < 50) {
-        krug.style.top = '0px';
-
-    } else if (e.pageY > 440) {
-        krug.style.top = '229px';
-    } else {
-        krug.style.top = e.pageY - 164 - e.layerY + (e.layerY - krug.clientHeight / 2) + 'px';
-    }
 };
 
-krug.addEventListener('mousedown', function() {
-    krug.addEventListener('mousemove', move)
+krug.addEventListener('mousedown', function(e) {
+    positionMouseX = e.layerX;
+    positionMouseY = e.layerY;
+    body.classList.add('grabing');
+    kvadrat.addEventListener('mousemove', move);
+
 });
 
 krug.addEventListener('mouseup', function() {
-    krug.removeEventListener('mousemove', move)
+    kvadrat.removeEventListener('mousemove', move);
+    body.classList.remove('grabing');
 });

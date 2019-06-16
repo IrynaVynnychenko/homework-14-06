@@ -12,22 +12,24 @@
             height: 100px;
             background-color: blueviolet;
             position: absolute;
-        }
-        
-        .tochka {
-            position: absolute;
+            cursor: grab;
         }
         
         body {
             margin: 0;
             height: 100vh;
             display: flex;
+            position: relative;
         }
         
-        .kradrat {
+        .grabing .krug {
+            cursor: grabbing;
+        }
+        
+        .kvadrat {
             position: relative;
-            height: 50vh;
-            width: 780px;
+            height: 500px;
+            width: 500px;
             background-color: yellow;
             margin: auto;
         }
@@ -35,9 +37,8 @@
 </head>
 
 <body>
-    <div class="kradrat">
+    <div class="kvadrat">
         <div class="krug">
-            <div class="tochka"></div>
         </div>
     </div>
     <script src="main.js"></script>
